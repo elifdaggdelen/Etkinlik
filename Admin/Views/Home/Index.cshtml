@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Admin Paneli";
+}
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        <div class="row margin">
+            <div class="col-sm-12">
+                <a class="btn btn-block btn-default" href="@Url.Action("Index","Activities")">
+                    <i class="fa fa-tree fa-3x"></i><br> <small>Etkinlikler</small>
+                </a>
+            </div>
+           
+        </div>
+        <br />
+        <div class="row margin">
+            <div class="col-sm-4">
+                <a class="btn btn-block btn-default" href="@Url.Action("Index","Kategoris")">
+                    <i class="fa fa-clone fa-3x"></i><br> <small>Kategoriler</small>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-block btn-default" href="@Url.Action("Index","Users")">
+                    <i class="fa fa-user fa-3x"></i><br> <small>Kullanıcılar</small>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-block btn-default" href="@Url.Action("Index","UserTypes")">
+                    <i class="fa fa-group fa-3x"></i><br> <small>Kullanıcı Tipleri</small>
+                </a>
+            </div>
+        </div>
+        <br />
+        <div class="row margin">
+            <div class="col-sm-4">
+                <a class="btn btn-block btn-default" href="@Url.Action("Index","Comments")">
+                    <i class="fa fa-commenting fa-3x"></i><br> <small>Yorumlar</small>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-block btn-default" href="@Url.Action("Index","Sikayets")">
+                    <i class="fa fa-area-chart fa-3x"></i><br> <small>Şikayetler</small>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>

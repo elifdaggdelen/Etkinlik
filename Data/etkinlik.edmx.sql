@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/29/2016 14:04:35
--- Generated from EDMX file: C:\Users\Elif\Desktop\Etkinlik - Copy\Data\etkinlik.edmx
+-- Date Created: 12/13/2016 16:42:16
+-- Generated from EDMX file: C:\Users\Elif\Desktop\MVC\Etkinlik - Copy\Data\etkinlik.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -26,11 +26,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_KategoriActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ActivitySet] DROP CONSTRAINT [FK_KategoriActivity];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CommentActivity]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ActivitySet] DROP CONSTRAINT [FK_CommentActivity];
-GO
 IF OBJECT_ID(N'[dbo].[FK_SikayetActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ActivitySet] DROP CONSTRAINT [FK_SikayetActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserComment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CommentSet] DROP CONSTRAINT [FK_UserComment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ActivityComment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CommentSet] DROP CONSTRAINT [FK_ActivityComment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ActivityComment1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CommentSet] DROP CONSTRAINT [FK_ActivityComment1];
 GO
 
 -- --------------------------------------------------
@@ -84,7 +90,6 @@ CREATE TABLE [dbo].[ActivitySet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [UserId] int  NOT NULL,
     [KategoriId] int  NOT NULL,
-    [CommentId] int  NOT NULL,
     [SikayetId] int  NOT NULL,
     [Title] nvarchar(max)  NOT NULL,
     [Text] nvarchar(max)  NOT NULL,
@@ -96,6 +101,8 @@ GO
 -- Creating table 'CommentSet'
 CREATE TABLE [dbo].[CommentSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [UserId] int  NOT NULL,
+    [ActivityId] int  NOT NULL,
     [Text] nvarchar(max)  NOT NULL,
     [Tarih] datetime  NOT NULL,
     [Verified] bit  NOT NULL
@@ -115,6 +122,16 @@ GO
 CREATE TABLE [dbo].[KategoriSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [KategoriAdi] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'LogSet'
+CREATE TABLE [dbo].[LogSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [UserId] int  NOT NULL,
+    [Subject] nvarchar(max)  NOT NULL,
+    [Detail] nvarchar(max)  NOT NULL,
+    [Date] datetime  NOT NULL
 );
 GO
 
@@ -155,6 +172,12 @@ GO
 -- Creating primary key on [Id] in table 'KategoriSet'
 ALTER TABLE [dbo].[KategoriSet]
 ADD CONSTRAINT [PK_KategoriSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'LogSet'
+ALTER TABLE [dbo].[LogSet]
+ADD CONSTRAINT [PK_LogSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -207,21 +230,6 @@ ON [dbo].[ActivitySet]
     ([KategoriId]);
 GO
 
--- Creating foreign key on [CommentId] in table 'ActivitySet'
-ALTER TABLE [dbo].[ActivitySet]
-ADD CONSTRAINT [FK_CommentActivity]
-    FOREIGN KEY ([CommentId])
-    REFERENCES [dbo].[CommentSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CommentActivity'
-CREATE INDEX [IX_FK_CommentActivity]
-ON [dbo].[ActivitySet]
-    ([CommentId]);
-GO
-
 -- Creating foreign key on [SikayetId] in table 'ActivitySet'
 ALTER TABLE [dbo].[ActivitySet]
 ADD CONSTRAINT [FK_SikayetActivity]
@@ -235,6 +243,66 @@ GO
 CREATE INDEX [IX_FK_SikayetActivity]
 ON [dbo].[ActivitySet]
     ([SikayetId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'CommentSet'
+ALTER TABLE [dbo].[CommentSet]
+ADD CONSTRAINT [FK_UserComment]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[UserSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserComment'
+CREATE INDEX [IX_FK_UserComment]
+ON [dbo].[CommentSet]
+    ([UserId]);
+GO
+
+-- Creating foreign key on [ActivityId] in table 'CommentSet'
+ALTER TABLE [dbo].[CommentSet]
+ADD CONSTRAINT [FK_ActivityComment]
+    FOREIGN KEY ([ActivityId])
+    REFERENCES [dbo].[ActivitySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ActivityComment'
+CREATE INDEX [IX_FK_ActivityComment]
+ON [dbo].[CommentSet]
+    ([ActivityId]);
+GO
+
+-- Creating foreign key on [ActivityId] in table 'CommentSet'
+ALTER TABLE [dbo].[CommentSet]
+ADD CONSTRAINT [FK_ActivityComment1]
+    FOREIGN KEY ([ActivityId])
+    REFERENCES [dbo].[ActivitySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ActivityComment1'
+CREATE INDEX [IX_FK_ActivityComment1]
+ON [dbo].[CommentSet]
+    ([ActivityId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'LogSet'
+ALTER TABLE [dbo].[LogSet]
+ADD CONSTRAINT [FK_UserLog]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[UserSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserLog'
+CREATE INDEX [IX_FK_UserLog]
+ON [dbo].[LogSet]
+    ([UserId]);
 GO
 
 -- --------------------------------------------------

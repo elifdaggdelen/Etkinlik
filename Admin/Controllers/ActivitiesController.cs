@@ -17,7 +17,7 @@ namespace Admin.Controllers
         // GET: Activities
         public ActionResult Index()
         {
-            var activitySet = db.ActivitySet.Include(a => a.User).Include(a => a.Kategori).Include(a => a.Comment).Include(a => a.Sikayet);
+            var activitySet = db.ActivitySet.Include(a => a.User).Include(a => a.Kategori).Include(a => a.Sikayet);
             return View(activitySet.ToList());
         }
 
@@ -41,7 +41,6 @@ namespace Admin.Controllers
         {
             ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name");
             ViewBag.KategoriId = new SelectList(db.KategoriSet, "Id", "KategoriAdi");
-            ViewBag.CommentId = new SelectList(db.CommentSet, "Id", "Text");
             ViewBag.SikayetId = new SelectList(db.SikayetSet, "Id", "Konu");
             return View();
         }
@@ -51,7 +50,7 @@ namespace Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,KategoriId,CommentId,SikayetId,Title,Text,Resim,Date")] Activity activity)
+        public ActionResult Create([Bind(Include = "Id,UserId,KategoriId,SikayetId,Title,Text,Resim,Date")] Activity activity)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +61,6 @@ namespace Admin.Controllers
 
             ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name", activity.UserId);
             ViewBag.KategoriId = new SelectList(db.KategoriSet, "Id", "KategoriAdi", activity.KategoriId);
-            ViewBag.CommentId = new SelectList(db.CommentSet, "Id", "Text", activity.CommentId);
             ViewBag.SikayetId = new SelectList(db.SikayetSet, "Id", "Konu", activity.SikayetId);
             return View(activity);
         }
@@ -81,7 +79,6 @@ namespace Admin.Controllers
             }
             ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name", activity.UserId);
             ViewBag.KategoriId = new SelectList(db.KategoriSet, "Id", "KategoriAdi", activity.KategoriId);
-            ViewBag.CommentId = new SelectList(db.CommentSet, "Id", "Text", activity.CommentId);
             ViewBag.SikayetId = new SelectList(db.SikayetSet, "Id", "Konu", activity.SikayetId);
             return View(activity);
         }
@@ -91,7 +88,7 @@ namespace Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,KategoriId,CommentId,SikayetId,Title,Text,Resim,Date")] Activity activity)
+        public ActionResult Edit([Bind(Include = "Id,UserId,KategoriId,SikayetId,Title,Text,Resim,Date")] Activity activity)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +98,6 @@ namespace Admin.Controllers
             }
             ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name", activity.UserId);
             ViewBag.KategoriId = new SelectList(db.KategoriSet, "Id", "KategoriAdi", activity.KategoriId);
-            ViewBag.CommentId = new SelectList(db.CommentSet, "Id", "Text", activity.CommentId);
             ViewBag.SikayetId = new SelectList(db.SikayetSet, "Id", "Konu", activity.SikayetId);
             return View(activity);
         }

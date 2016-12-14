@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,6 +120,9 @@
       <DependentUpon>etkinlik.edmx</DependentUpon>
     </Compile>
     <Compile Include="Kategori.cs">
+      <DependentUpon>etkinlik.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Log.cs">
       <DependentUpon>etkinlik.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

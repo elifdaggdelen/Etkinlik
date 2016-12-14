@@ -17,6 +17,8 @@ namespace Data
         public User()
         {
             this.Activity = new HashSet<Activity>();
+            this.Comment = new HashSet<Comment>();
+            this.Log = new HashSet<Log>();
         }
     
         public int Id { get; set; }
@@ -29,5 +31,7 @@ namespace Data
     
         public virtual UserType UserType { get; set; }
         public virtual ICollection<Activity> Activity { get; set; }
+        public virtual ICollection<Comment> Comment { get; set; }
+        public virtual ICollection<Log> Log { get; set; }
     }
 }

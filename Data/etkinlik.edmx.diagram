@@ -14,8 +14,12 @@
         <AssociationConnector Association="etkinlik.UserTypeUser" />
         <AssociationConnector Association="etkinlik.UserActivity" />
         <AssociationConnector Association="etkinlik.KategoriActivity" />
-        <AssociationConnector Association="etkinlik.CommentActivity" />
         <AssociationConnector Association="etkinlik.SikayetActivity" />
+        <AssociationConnector Association="etkinlik.UserComment" />
+        <AssociationConnector Association="etkinlik.ActivityComment" />
+        <AssociationConnector Association="etkinlik.ActivityComment1" />
+        <EntityTypeShape EntityType="etkinlik.Log" Width="1.5" PointX="11.125" PointY="1.625" />
+        <AssociationConnector Association="etkinlik.UserLog" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

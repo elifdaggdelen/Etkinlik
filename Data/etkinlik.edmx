@@ -12,6 +12,7 @@
     <EntitySet Name="CommentSet" EntityType="etkinlik.Store.CommentSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SikayetSet" EntityType="etkinlik.Store.SikayetSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="KategoriSet" EntityType="etkinlik.Store.KategoriSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LogSet" EntityType="etkinlik.Store.LogSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserTypeUser" Association="etkinlik.Store.UserTypeUser">
       <End Role="UserType" EntitySet="UserTypeSet" />
       <End Role="User" EntitySet="UserSet" />
@@ -24,13 +25,25 @@
       <End Role="Kategori" EntitySet="KategoriSet" />
       <End Role="Activity" EntitySet="ActivitySet" />
     </AssociationSet>
-    <AssociationSet Name="CommentActivity" Association="etkinlik.Store.CommentActivity">
-      <End Role="Comment" EntitySet="CommentSet" />
-      <End Role="Activity" EntitySet="ActivitySet" />
-    </AssociationSet>
     <AssociationSet Name="SikayetActivity" Association="etkinlik.Store.SikayetActivity">
       <End Role="Sikayet" EntitySet="SikayetSet" />
       <End Role="Activity" EntitySet="ActivitySet" />
+    </AssociationSet>
+    <AssociationSet Name="UserComment" Association="etkinlik.Store.UserComment">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Comment" EntitySet="CommentSet" />
+    </AssociationSet>
+    <AssociationSet Name="ActivityComment" Association="etkinlik.Store.ActivityComment">
+      <End Role="Activity" EntitySet="ActivitySet" />
+      <End Role="Comment" EntitySet="CommentSet" />
+    </AssociationSet>
+    <AssociationSet Name="ActivityComment1" Association="etkinlik.Store.ActivityComment1">
+      <End Role="Activity" EntitySet="ActivitySet" />
+      <End Role="Comment" EntitySet="CommentSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserLog" Association="etkinlik.Store.UserLog">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Log" EntitySet="LogSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="UserSet">
@@ -59,7 +72,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="KategoriId" Type="int" Nullable="false" />
-    <Property Name="CommentId" Type="int" Nullable="false" />
     <Property Name="SikayetId" Type="int" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
@@ -71,6 +83,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="ActivityId" Type="int" Nullable="false" />
     <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Tarih" Type="datetime" Nullable="false" />
     <Property Name="Verified" Type="bit" Nullable="false" />
@@ -90,6 +104,16 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="KategoriAdi" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="UserTypeUser">
     <End Role="UserType" Type="etkinlik.Store.UserTypeSet" Multiplicity="1" />
@@ -127,18 +151,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CommentActivity">
-    <End Role="Comment" Type="etkinlik.Store.CommentSet" Multiplicity="1" />
-    <End Role="Activity" Type="etkinlik.Store.ActivitySet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Comment">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Activity">
-        <PropertyRef Name="CommentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="SikayetActivity">
     <End Role="Sikayet" Type="etkinlik.Store.SikayetSet" Multiplicity="1" />
     <End Role="Activity" Type="etkinlik.Store.ActivitySet" Multiplicity="*" />
@@ -148,6 +160,54 @@
       </Principal>
       <Dependent Role="Activity">
         <PropertyRef Name="SikayetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserComment">
+    <End Role="User" Type="etkinlik.Store.UserSet" Multiplicity="1" />
+    <End Role="Comment" Type="etkinlik.Store.CommentSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ActivityComment">
+    <End Role="Activity" Type="etkinlik.Store.ActivitySet" Multiplicity="1" />
+    <End Role="Comment" Type="etkinlik.Store.CommentSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Activity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ActivityComment1">
+    <End Role="Activity" Type="etkinlik.Store.ActivitySet" Multiplicity="1" />
+    <End Role="Comment" Type="etkinlik.Store.CommentSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Activity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserLog">
+    <End Role="User" Type="etkinlik.Store.UserSet" Multiplicity="1" />
+    <End Role="Log" Type="etkinlik.Store.LogSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -174,13 +234,26 @@
             <End Role="Kategori" EntitySet="KategoriSet" />
             <End Role="Activity" EntitySet="ActivitySet" />
           </AssociationSet>
-          <AssociationSet Name="CommentActivity" Association="etkinlik.CommentActivity">
-            <End Role="Comment" EntitySet="CommentSet" />
-            <End Role="Activity" EntitySet="ActivitySet" />
-          </AssociationSet>
           <AssociationSet Name="SikayetActivity" Association="etkinlik.SikayetActivity">
             <End Role="Sikayet" EntitySet="SikayetSet" />
             <End Role="Activity" EntitySet="ActivitySet" />
+          </AssociationSet>
+          <AssociationSet Name="UserComment" Association="etkinlik.UserComment">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Comment" EntitySet="CommentSet" />
+          </AssociationSet>
+          <AssociationSet Name="ActivityComment" Association="etkinlik.ActivityComment">
+            <End Role="Activity" EntitySet="ActivitySet" />
+            <End Role="Comment" EntitySet="CommentSet" />
+          </AssociationSet>
+          <AssociationSet Name="ActivityComment1" Association="etkinlik.ActivityComment1">
+            <End Role="Activity" EntitySet="ActivitySet" />
+            <End Role="Comment" EntitySet="CommentSet" />
+          </AssociationSet>
+          <EntitySet Name="LogSet" EntityType="etkinlik.Log" />
+          <AssociationSet Name="UserLog" Association="etkinlik.UserLog">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Log" EntitySet="LogSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -196,6 +269,8 @@
           <Property Name="Avatar" Type="Binary" Nullable="true" />
           <NavigationProperty Name="UserType" Relationship="etkinlik.UserTypeUser" FromRole="User" ToRole="UserType" />
           <NavigationProperty Name="Activity" Relationship="etkinlik.UserActivity" FromRole="User" ToRole="Activity" />
+          <NavigationProperty Name="Comment" Relationship="etkinlik.UserComment" FromRole="User" ToRole="Comment" />
+          <NavigationProperty Name="Log" Relationship="etkinlik.UserLog" FromRole="User" ToRole="Log" />
         </EntityType>
         <EntityType Name="UserType">
           <Key>
@@ -212,7 +287,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="KategoriId" Type="Int32" Nullable="false" />
-          <Property Name="CommentId" Type="Int32" Nullable="false" />
           <Property Name="SikayetId" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" Nullable="false" />
           <Property Name="Text" Type="String" Nullable="false" />
@@ -220,18 +294,21 @@
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="User" Relationship="etkinlik.UserActivity" FromRole="Activity" ToRole="User" />
           <NavigationProperty Name="Kategori" Relationship="etkinlik.KategoriActivity" FromRole="Activity" ToRole="Kategori" />
-          <NavigationProperty Name="Comment" Relationship="etkinlik.CommentActivity" FromRole="Activity" ToRole="Comment" />
           <NavigationProperty Name="Sikayet" Relationship="etkinlik.SikayetActivity" FromRole="Activity" ToRole="Sikayet" />
+          <NavigationProperty Name="Comment" Relationship="etkinlik.ActivityComment1" FromRole="Activity" ToRole="Comment" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ActivityId" Type="Int32" Nullable="false" />
           <Property Name="Text" Type="String" Nullable="false" />
           <Property Name="Tarih" Type="DateTime" Nullable="false" />
           <Property Name="Verified" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Activity" Relationship="etkinlik.CommentActivity" FromRole="Comment" ToRole="Activity" />
+          <NavigationProperty Name="User" Relationship="etkinlik.UserComment" FromRole="Comment" ToRole="User" />
+          <NavigationProperty Name="Activity" Relationship="etkinlik.ActivityComment1" FromRole="Comment" ToRole="Activity" />
         </EntityType>
         <EntityType Name="Sikayet">
           <Key>
@@ -287,18 +364,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CommentActivity">
-          <End Type="etkinlik.Comment" Role="Comment" Multiplicity="1" />
-          <End Type="etkinlik.Activity" Role="Activity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comment">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Activity">
-              <PropertyRef Name="CommentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="SikayetActivity">
           <End Type="etkinlik.Sikayet" Role="Sikayet" Multiplicity="1" />
           <End Type="etkinlik.Activity" Role="Activity" Multiplicity="*" />
@@ -308,6 +373,65 @@
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="SikayetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserComment">
+          <End Type="etkinlik.User" Role="User" Multiplicity="1" />
+          <End Type="etkinlik.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ActivityComment">
+          <End Type="etkinlik.Activity" Role="Activity" Multiplicity="1" />
+          <End Type="etkinlik.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ActivityComment1">
+          <End Type="etkinlik.Activity" Role="Activity" Multiplicity="1" />
+          <End Type="etkinlik.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" />
+          <Property Name="Detail" Type="String" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="etkinlik.UserLog" FromRole="Log" ToRole="User" />
+        </EntityType>
+        <Association Name="UserLog">
+          <End Type="etkinlik.User" Role="User" Multiplicity="1" />
+          <End Type="etkinlik.Log" Role="Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -344,7 +468,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
-          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
           <ScalarProperty Name="SikayetId" ColumnName="SikayetId" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Text" ColumnName="Text" />
@@ -357,6 +480,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(etkinlik.Comment)">
         <MappingFragment StoreEntitySet="CommentSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Tarih" ColumnName="Tarih" />
           <ScalarProperty Name="Verified" ColumnName="Verified" />
@@ -378,6 +503,17 @@
         <MappingFragment StoreEntitySet="KategoriSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogSet">
+      <EntityTypeMapping TypeName="IsTypeOf(etkinlik.Log)">
+        <MappingFragment StoreEntitySet="LogSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

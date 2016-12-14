@@ -35,6 +35,22 @@
             @Html.DisplayFor(model => model.Verified)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activity.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activity.Title)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

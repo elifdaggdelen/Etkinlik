@@ -61,6 +61,7 @@ namespace Admin.Controllers
                         user.Avatar = reader.ReadBytes(Avatar.ContentLength);
                     }
                 }
+
                 db.UserSet.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -108,6 +109,7 @@ namespace Admin.Controllers
                 {
                     db.Entry(user).Property("Avatar").IsModified = false;
                 }
+
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

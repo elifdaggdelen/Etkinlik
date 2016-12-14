@@ -29,7 +29,7 @@ else
     <div class="well" id="form_standart">
         <span class="pull-right text-danger">Eski Usul</span>
         <h4>Yorum Yaz:</h4>
-        @using (Html.BeginForm("Comment", "Posts", FormMethod.Post))
+        @using (Html.BeginForm("Comment", "Etkinlik", FormMethod.Post))
         {
             @Html.Hidden("post_id", Model.Id)
 
@@ -41,7 +41,7 @@ else
         }
     </div>
 
-    @*<div class="well hide" id="form_ajax">
+    <div class="well hide" id="form_ajax">
         <span class="pull-right text-success">Ajax qeyfiii</span>
         <h4>Yorum Yaz:</h4>
         @using (Ajax.BeginForm("CommentAjax", null, null, new AjaxOptions
@@ -86,5 +86,5 @@ else
         }
 
 
-    </script>*@
+    </script>
 }

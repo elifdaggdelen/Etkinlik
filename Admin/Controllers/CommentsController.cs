@@ -17,7 +17,8 @@ namespace Admin.Controllers
         // GET: Comments
         public ActionResult Index()
         {
-            return View(db.CommentSet.ToList());
+            var commentSet = db.CommentSet.Include(c => c.User).Include(c => c.Activity);
+            return View(commentSet.ToList());
         }
 
         // GET: Comments/Details/5
@@ -38,6 +39,8 @@ namespace Admin.Controllers
         // GET: Comments/Create
         public ActionResult Create()
         {
+            ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name");
+            ViewBag.ActivityId = new SelectList(db.ActivitySet, "Id", "Title");
             return View();
         }
 
@@ -46,7 +49,7 @@ namespace Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Text,Tarih,Verified")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id,UserId,ActivityId,Text,Tarih,Verified")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +58,8 @@ namespace Admin.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name", comment.UserId);
+            ViewBag.ActivityId = new SelectList(db.ActivitySet, "Id", "Title", comment.ActivityId);
             return View(comment);
         }
 
@@ -70,6 +75,8 @@ namespace Admin.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name", comment.UserId);
+            ViewBag.ActivityId = new SelectList(db.ActivitySet, "Id", "Title", comment.ActivityId);
             return View(comment);
         }
 
@@ -78,7 +85,7 @@ namespace Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Text,Tarih,Verified")] Comment comment)
+        public ActionResult Edit([Bind(Include = "Id,UserId,ActivityId,Text,Tarih,Verified")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +93,8 @@ namespace Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.UserId = new SelectList(db.UserSet, "Id", "Name", comment.UserId);
+            ViewBag.ActivityId = new SelectList(db.ActivitySet, "Id", "Title", comment.ActivityId);
             return View(comment);
         }
 

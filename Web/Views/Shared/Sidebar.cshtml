@@ -1,7 +1,7 @@
 ﻿<!-- Blog Search Well -->
 <div class="well">
     <h4>Arama</h4>
-    @using (Html.BeginForm("Index", "Posts", FormMethod.Get))
+    @using (Html.BeginForm("Index", "Etkinlik", FormMethod.Get))
     {
         <div class="input-group">
             <input type="text" name="query" value="@Request.QueryString["query"]" class="form-control">

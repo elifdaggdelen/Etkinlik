@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Helpers;
 
 namespace Web.Controllers
 {
@@ -85,6 +86,15 @@ namespace Web.Controllers
         {
             var list = etkinlik.ActivitySet.Where(q => q.KategoriId == id).Select(x => new { x.Id, x.Title });
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Resim(int id)
+        {
+            byte[] file = etkinlik.ActivitySet.Find(id).Resim;
+            if (file == null)
+            {
+                return Content("Resim bulunamadı");
+            }
+            return File(file, ImageHelper.GetContentType(file).ToString());
         }
     }
 }

@@ -6,6 +6,9 @@
 <!-- Title -->
 <h1>@Model.Title</h1>
 <hr>
+<div style="text-align:center">
+    <img src="@Url.Action("Resim",new{@id = Model.Id})" width="500" height="400" />
+</div>
 <!-- Date/Time -->
 <p><span class="glyphicon glyphicon-time"></span> @Model.Date.ToString()</p>
 <hr>
